@@ -39,6 +39,7 @@ public class BasicItemController {
 
 
 
+
 //    @PostMapping("/add")
     public String addItemV1(@RequestParam String itemName,
                        @RequestParam int price,
@@ -94,6 +95,22 @@ public class BasicItemController {
         return "basic/item";
     }
 
+
+
+    // 상품 수정
+    @GetMapping("/{itemId}/edit")
+    public String editForm(@PathVariable Long itemId, Model model) {
+        Item item = itemRepository.findById(itemId);
+        model.addAttribute("item", item);
+        return "basic/editForm";
+    }
+
+    @PostMapping("/{itemId}/edit")
+    public String edit(@PathVariable Long itemId, @ModelAttribute Item item) {
+        itemRepository.update(itemId, item);
+        return "redirect:/basic/items/{itemId}";
+        // 저장하고 난 후 상품상세로 리다이렉트 하게됨
+    }
 
 
     //Test용 아이템 추가
